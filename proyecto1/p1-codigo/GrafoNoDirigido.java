@@ -6,19 +6,38 @@ import java.util.*;
 
 public class GrafoNoDirigido implements Grafo
 {
+	private LinkedList<Vertice> listaver;
+	private LinkedList<LinkedList<Arista>> listaari;
+
     public GrafoNoDirigido() {
+		listaver = new LinkedList<Vertice>() ;
+		listaari = new LinkedList<LinkedList<Arista>>() ;
     }
 
     public boolean cargarGrafo(String dirArchivo) {
     }
     
     public int numeroDeVertices() {
+		return listaver.size();
     }
 
     public int numeroDeLados() {
+		int total = 0;
+		for ( LinkedList<Arista> sublista : listaari ) {
+			total = sublista.size();
+		}
+		return total;
     }
    
     public boolean agregarVertice(Vertice v) {
+		for ( Vertice ver : listaver ) {
+			if ( ver.getId().equals(v.getId()) ) { 
+				return false;
+			}
+		}
+			listaver.offer(v);
+			return true;
+		
     }
 
     public boolean agregarVertice(String id, double peso) {
