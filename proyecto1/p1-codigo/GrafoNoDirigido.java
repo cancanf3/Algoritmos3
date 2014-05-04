@@ -18,35 +18,56 @@ public class GrafoNoDirigido implements Grafo
     }
     
     public int numeroDeVertices() {
-		return listaver.size();
+		return this.listaver.size();
     }
 
     public int numeroDeLados() {
 		int total = 0;
-		for ( LinkedList<Arista> sublista : listaari ) {
+		for ( LinkedList<Arista> sublista : this.listaari ) {
 			total = sublista.size();
 		}
 		return total;
     }
    
     public boolean agregarVertice(Vertice v) {
-		for ( Vertice ver : listaver ) {
+		for ( Vertice ver : this.listaver ) {
 			if ( ver.getId().equals(v.getId()) ) { 
 				return false;
 			}
 		}
-			listaver.offer(v);
-			return true;
+		this.listaver.offer(v);
+		return true;
 		
     }
 
     public boolean agregarVertice(String id, double peso) {
+		for ( Vertice ver : this.listaver ) {
+			if ( ver.getId().equals(id) ) { 
+				return false;
+			}
+		}
+		Vertice v = new Vertice(id,peso);	
+		this.listaver.offer(v);
+		return true;
     }
     
     public Vertice obtenerVertice(String id) {
+		for ( Vertice ver : this.listaver ) {
+			if ( ver.getId().equals(id) ) { 
+				return ver;
+			}
+		}
+		throw new NoSuchElementException();
     }
 
     public boolean estaVertice(String id) {
+		for ( Vertice ver : this.listaver ) {
+			if ( ver.getId().equals(id) ) { 
+				return true;
+			}
+		}
+		return false;
+
     }
 
     public boolean estaLado(String u, String v){
