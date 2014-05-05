@@ -10,5 +10,6 @@ public class ClienteGrafo {
 	Vertice v2 = new Vertice("2",2);
   	Arco hola = new Arco("123456",3,v1,v2);
 	System.out.println(hola.getId());
+	Digrafo g = new Digrafo();
   }
 }

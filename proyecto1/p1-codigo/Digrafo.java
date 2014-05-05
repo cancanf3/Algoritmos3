@@ -6,15 +6,23 @@ import java.util.*;
 
 public class Digrafo implements Grafo
 {
-    public Digrafo() {}
+    private LinkedList<Vertice> listaver;
+	private LinkedList<LinkedList<Arco>> listaarc;
+    
+    public Digrafo() {
+        listaver = new LinkedList<Vertice>() ;
+		listaarc = new LinkedList<LinkedList<Arco>>() ;
+    }
 
     public boolean cargarGrafo(String dirArchivo) {
     }
     
     public int numeroDeVertices() {
+        return listaver.size();
     }
 
     public int numeroDeLados() {
+        
     }
    
     public boolean agregarVertice(Vertice v) {
@@ -59,10 +67,11 @@ public class Digrafo implements Grafo
     public boolean agregarArco(Arco a) {
     } 
 
-    public boolean agregarArco(String id, double peso, 
+    public boolean agregarArco(String id, double peso){ 
     }
 
     public int gradoInterior(String id) {
+    		return 0;
     }
 
     public int gradoExterior(String id) {
