@@ -19,9 +19,9 @@ public class VerticeNoDir
 	Vertice v; 
 	LinkedList<Arista> l;
 	
-	public VerticeDir()
+	public VerticeNoDir(Vertice v)
 	{
-		this.v = new Vertice();
+		this.v = v;
 		this.l = new LinkedList<Arista>();
 	}
 }

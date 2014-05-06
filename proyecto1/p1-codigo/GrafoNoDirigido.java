@@ -19,8 +19,7 @@ public class GrafoNoDirigido implements Grafo
     }
     
     public int numeroDeVertices() {
-<<<<<<< HEAD
-		return lista.size();
+		returnthis.lista.size();
     }
 
     public int numeroDeLados() {
@@ -28,7 +27,7 @@ public class GrafoNoDirigido implements Grafo
     }
    
     public boolean agregarVertice(Vertice v) {
-		for ( VerticeNoDir ver : lista ) {
+		for ( VerticeNoDir ver :this.lista ) {
 			if ( ver.v.getId().equals(v.getId()) ) { 
 				return false;
 			}
@@ -41,68 +40,26 @@ public class GrafoNoDirigido implements Grafo
     public boolean agregarVertice(String id, double peso) {
 		for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) { 
-=======
-		return this.listaver.size();
-    }
-
-    public int numeroDeLados() {
-		int total = 0;
-		for ( LinkedList<Arista> sublista : this.listaari ) {
-			total = sublista.size();
-		}
-		return total;
-    }
-   
-    public boolean agregarVertice(Vertice v) {
-		for ( Vertice ver : this.listaver ) {
-			if ( ver.getId().equals(v.getId()) ) { 
-				return false;
-			}
-		}
-		this.listaver.offer(v);
-		return true;
-		
-    }
-
-    public boolean agregarVertice(String id, double peso) {
-		for ( Vertice ver : this.listaver ) {
-			if ( ver.getId().equals(id) ) { 
->>>>>>> FETCH_HEAD
 				return false;
 			}
 		}
 		Vertice v = new Vertice(id,peso);	
-<<<<<<< HEAD
 		this.lista.offer(new VerticeNodir(v));
-=======
-		this.listaver.offer(v);
->>>>>>> FETCH_HEAD
 		return true;
     }
     
     public Vertice obtenerVertice(String id) {
-<<<<<<< HEAD
 		for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) { 
 				return ver.v;
-=======
-		for ( Vertice ver : this.listaver ) {
-			if ( ver.getId().equals(id) ) { 
-				return ver;
->>>>>>> FETCH_HEAD
 			}
 		}
 		throw new NoSuchElementException();
     }
 
     public boolean estaVertice(String id) {
-<<<<<<< HEAD
 		for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) { 
-=======
-		for ( Vertice ver : this.listaver ) {
-			if ( ver.getId().equals(id) ) { 
->>>>>>> FETCH_HEAD
 				return true;
 			}
 		}
@@ -158,7 +115,7 @@ public class GrafoNoDirigido implements Grafo
     		List<Lado> listaari = new LinkedList<Arista>;
     		for ( VerticeNoDir ver : this.lista ) {
 			for ( Arista ari : ver.l ) {
-				bool esta=false;
+				boolean esta=false;
 				for ( Arista ari1 : listaari ) {
 					if ( ari1.getId().equals(ari.getId()) ) {
 						esta=true;
@@ -175,7 +132,7 @@ public class GrafoNoDirigido implements Grafo
 
     public int grado(String id) {
     		for ( VerticeNoDir ver : this.lista ) {
-			if ( ver.v.getID.equals(id) {
+			if ( ver.v.getId().equals(id) {
 				return ver
 			} 
     		}
@@ -183,26 +140,149 @@ public class GrafoNoDirigido implements Grafo
     }
 
     public List<Vertice> adyacentes(String id) {
+    		Lista<Vertices> listaVer = new LinkedList<Vertices>;
+    		for ( VerticeNoDir ver : this.lista ) {
+			if ( ver.v.getId().equals(id) ) {
+				for ( Arista ari : ver.l ) {
+					listaVer.offer(ari.getExtremo2());
+				}
+			}
+    		}
+    		return listaVer;
     }
  
     public List<Lado> incidentes(String id) {
+    		int[][] matriz = new int[this.lista.size()][this.lista.size()];
+    		List<Lado> listaLados = new LinkedList<Arista>;
+    		int i,j,k,posVerId;
+    		Vertice verId;
+    		for ( i = 0 ; i < this.lista.size() ; i++) {
+    			for ( j = 0 ; j < this.lista.size() ; j++) {
+    				if ( i == j ) {
+					matriz[i][i] = 1;
+    				}
+    				else {
+    					matriz[i][j] = 0;
+				}
+			}
+		}
+		
+    		i=0;
+    		j=0;
+    		for ( VerticeNoDir ver : this.lista ) { 
+    			if ( ver.v.getId().equals(id) ) {
+				verId = ver.v;
+				posVerId = i;
+    			}
+			for ( Arista  ari : this.lista.l ) {
+				j = this.lista.indexOf(ari.getExtremo2());
+				matriz[i][j] = 1;;	
+			}
+			i++;
+    		}
+
+    		for ( k = 0 ; k < this.lista.size() ; k++) {
+	    		for ( i = 0 ; i < this.lista.size() ; i++) {			
+				if ( k != i && matriz[i][k] == 1 ) {
+    					for ( j = 0 ; j < this.lista.size() ; j++) {
+						matriz[i][j] = matriz[i][j] + matriz[k][j];
+    					}
+    				}
+    			}
+		}
+
+    	
+    		for ( i = 0 ; i < this.lista.size() ; i++) {
+				if ( matriz[posVerId][i] == 1 ) {
+						Arista ari = new Arista( verId, this.lista.get(i) );
+						listaLados.offer(ari);
+				}
+    		}
+    				 
+    		
     }
 
     public Object clone() {
+		GrafoNoDirigida g2;
+		
+    		for (
     }
 
     public String toString() {
+    		
     }
 
     public boolean agregarArista(Arista a) {
+    		int v1,v2;
+    		v1 = this.lista.indexOf(a.getExtremo1);
+    		v2 = this.lista.indexOf(a.getExtremo2);
+    		if ( v1 > 0 && v2 > 0 ) {
+			Arista a1 = new Arista( a.getId(),a.getPeso(),
+								   a.getExtremo2(),a.getExtremo2() );
+		    this.lista.get(v1).l.offer(a);
+			this.lista.get(v2).l.offer(a1);	
+			return true;			
+    		}
+    		else {
+			return false;
+    		}
     }
 
     public boolean agregarArista(String id, double peso, String u, String v) {
+      	int v1,v2;
+      	boolean estaV,estaU;
+      	Vertice v1,v2;
+      	for ( Vertice ver : this.lista ) {
+			if ( ver.v.getId().equals(u) ) {
+				v1 = ver.v;
+				estaU=true;
+			}
+			else if ( ver.v.getId().equals(v) ) {
+				v2 = ver.v;
+				estaV=true;
+			}
+			if ( estaU && estanV ) {
+				break;
+			}
+      	}
+    		
+    		if ( estaU && estanV ) {
+    			Arista 	a,a1;
+    			a = new Arista(id,peso,v1,v2);
+    			a1 = new Arista(id,peso,v2,v1);
+		    this.lista.get(v1).l.offer(a);
+			this.lista.get(v2).l.offer(a1);	
+			return true;			
+    		}
+    		else {
+			return false;
+    		}
+    
     }
-
+    
     public boolean eliminarArista(String id) {
+    		int cond = 0;
+    		for ( VerticeNoDir ver : this.lista ) {
+			for ( Arista a : ver.l ) {
+				if (	 a.getId().equals(id) ) {
+					this.lista.l.remove(a);
+					i++;
+				}
+				else if ( i == 2 ) {
+					return true;
+				}
+			}
+    		}
+    		return false;
     }
 
     public Arista obtenerArista(String id) {
+    		for ( VerticeNoDir ver : this.lista ) {
+			for ( Arista a : ver.l ) {
+				if ( a.getId().equals(id) ) {
+					return a;
+				}
+			}
+    		}
     }
 }
