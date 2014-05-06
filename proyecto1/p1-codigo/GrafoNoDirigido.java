@@ -19,11 +19,7 @@ public class GrafoNoDirigido implements Grafo
     }
     
     public int numeroDeVertices() {
-<<<<<<< HEAD
-		returnthis.lista.size();
-=======
-		return lista.size();
->>>>>>> FETCH_HEAD
+		return this.lista.size();
     }
 
     public int numeroDeLados() {
@@ -136,11 +132,8 @@ public class GrafoNoDirigido implements Grafo
 
     public int grado(String id) {
     		for ( VerticeNoDir ver : this.lista ) {
-<<<<<<< HEAD
-			if ( ver.v.getId().equals(id) {
-=======
+
 			if ( ver.v.getId().equals(id) ) {
->>>>>>> FETCH_HEAD
 				return ver
 			} 
     		}
