@@ -124,9 +124,22 @@ public class Digrafo implements Grafo
     }
 
     public List<Vertice> vertices() {
+		List<Vertice> listver = new LinkedList<Vertice>;
+		for ( VerticeDir ver : this.lista ) { 
+			listver.offer(ver.v);
+		}
+		return listver;
+			
     }
 
     public List<Lado> lados() {
+		List<Lado> listarc = new LinkedList<Arco>;
+		for ( VerticeDir ver ; this.lista ) {
+			for ( Arco arc ; this.lista ) {
+				listarc.offer(arc);
+			}
+		}
+		return listarc;
     }
 
     public int grado(String id) {
