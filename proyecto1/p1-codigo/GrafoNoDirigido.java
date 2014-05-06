@@ -19,7 +19,11 @@ public class GrafoNoDirigido implements Grafo
     }
     
     public int numeroDeVertices() {
+<<<<<<< HEAD
 		returnthis.lista.size();
+=======
+		return lista.size();
+>>>>>>> FETCH_HEAD
     }
 
     public int numeroDeLados() {
@@ -33,8 +37,8 @@ public class GrafoNoDirigido implements Grafo
 			}
 		}
 
-			lista.offer(new VerticeNodir(v));
-			return true;
+		lista.offer(new VerticeNodir(v));
+		return true;
     }
 
     public boolean agregarVertice(String id, double peso) {
@@ -132,7 +136,11 @@ public class GrafoNoDirigido implements Grafo
 
     public int grado(String id) {
     		for ( VerticeNoDir ver : this.lista ) {
+<<<<<<< HEAD
 			if ( ver.v.getId().equals(id) {
+=======
+			if ( ver.v.getId().equals(id) ) {
+>>>>>>> FETCH_HEAD
 				return ver
 			} 
     		}

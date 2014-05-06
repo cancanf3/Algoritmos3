@@ -4,8 +4,8 @@ import java.util.*;
 public class VerticeDir
 {
 	Vertice v;
-	LinkedList<Arco> l; 
-
+	LinkedList<Arco> l1; 
+	LinkedList<Arco> l2;
 	public VerticeDir(Vertice v)
 	{
 		this.v = v;
