@@ -1,0 +1,27 @@
+# Adyacentes Nodo 8 = [23,629,986]
+# Incidentes Nodo 8 = [15,16,47]
+# Grado Interior Nodo 8 = 1
+# Grado Exterior Nodo 8 = 2
+# Predecesores Nodo 8 = [23]
+# Sucesores Nodo 8 = [629,986]
+
+# Adyacentes Nodo 15 = [674,777]
+# Incidentes Nodo 15 = [27,1561]
+# Grado Interior Nodo 15 = 1
+# Grado Exterior Nodo 15 = 1
+# Predecesores Nodo 15 = [777]
+# Sucesores Nodo 15 = [674]
+
+# Adyacentes Nodo 58 = [71,194,238,387,443,508,750,844]
+# Incidentes Nodo 58 = [114,115,116,117,773,984,1551,1698]
+# Grado Interior Nodo 58 = 4
+# Grado Exterior Nodo 58 = 4 
+# Predecesores Nodo 58 = [387,443,750,844]
+# Sucesores Nodo 58 = [71,194,238,508]
+
+# Adyacentes Nodo 76 = [136,215,300,344,379,522,693,829]
+# Incidentes Nodo 76 = [148,149,150,151,152,153,262,424]
+# Grado Interior Nodo 76 = 2
+# Grado Exterior Nodo 76 = 6
+# Predecesores Nodo 76 = [136,215]
+# Sucesores Nodo 76 = [300,344,379,522,693,829]
