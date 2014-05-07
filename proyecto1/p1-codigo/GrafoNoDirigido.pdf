@@ -3,55 +3,21 @@
  */
 
 import java.util.*;
-import java.io.*;
 
 
 public class GrafoNoDirigido implements Grafo
 {
 	private LinkedList<VerticeNoDir> lista;
 	private int numArista;
-	private int numVertice;
 	
     public GrafoNoDirigido() {
-		this.lista = new LinkedList<VerticeNoDir>();
-		this.numArista = 0;
-		this.numVertice = 0;
+		lista = new LinkedList<VerticeNoDir>();
 		
     }
 
     public boolean cargarGrafo(String dirArchivo) {
-	      try{		 
-			  BufferedReader Buffer;
-			  Buffer = new BufferedReader(new FileReader(new File(dirArchivo)));
-			  String str = " ";
-			  int ver = Integer.parseInt(Buffer.readLine());
-			  int ari =  Integer.parseInt(Buffer.readLine());
-			
-			for (int i=0 ; i < ver ; i++) {
-				str = Buffer.readLine();
-				String[] str1 = str.split(" ");
-				this.agregarVertice(str1[0],Integer.parseInt(str1[1]));
-				mostrar();
-			}
-			
-			for (int i=0 ; i < ari ; i++) {
-			
-				str = Buffer.readLine();
-				String[] str1 = str.split(" ");
-				
-				this.agregarArista(str1[0],Integer.parseInt(str1[1])
-												   ,str1[2],str1[3]);
-				System.out.println(" arista "+i);
-			}
-
-			System.out.println(this.numVertice);
-			mostrar();
-	    }catch(IOException e) { 
-	    		System.out.println(" Error en la lectura del archivo Archivo"); 
-	    		return false;
-	    		};
-	    		return true;
-	  }
+    return true;
+    }
     
     public int numeroDeVertices() {
 
@@ -70,7 +36,6 @@ public class GrafoNoDirigido implements Grafo
 		}
 
 		lista.offer(new VerticeNoDir(v));
-		this.numVertice++;
 		return true;
     }
 
@@ -82,7 +47,6 @@ public class GrafoNoDirigido implements Grafo
 		}
 		Vertice v = new Vertice(id,peso);	
 		this.lista.offer(new VerticeNoDir(v));
-		this.numVertice++;
 		return true;
     }
     
@@ -115,7 +79,8 @@ public class GrafoNoDirigido implements Grafo
 				}
 			}
     		}
-    		return false;	
+    		return false;
+    		
     }
 
     public boolean eliminarVertice(String id) {
@@ -149,7 +114,7 @@ public class GrafoNoDirigido implements Grafo
     }
 
     public List<Lado> lados() {
-    		LinkedList<Lado> listaari = new LinkedList<Lado>();
+    		List<Lado> listaari = new LinkedList<Lado>();
     		for ( VerticeNoDir ver : this.lista ) {
 			for ( Arista ari : ver.l ) {
 				boolean esta=false;
@@ -172,12 +137,12 @@ public class GrafoNoDirigido implements Grafo
 			if ( ver.v.getId().equals(id) ) {
 				return ver.l.size();
 			} 
-		}
-		throw new NoSuchElementException();
+    		}
+    		
     }
 
     public List<Vertice> adyacentes(String id) {
-    		LinkedList<Vertice> listaVer = new LinkedList<Vertice>();
+    		Lista<Vertice> listaVer = new LinkedList<Vertice>();
     		for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) {
 				if ( !ver.l.isEmpty() ){
@@ -193,11 +158,11 @@ public class GrafoNoDirigido implements Grafo
     }
  
     public List<Lado> incidentes(String id) {
-		LinkedList<Lado> listaari = new LinkedList<Lado>();
+		Lista<Lado> listaari = new LinkedList<Lado>();
     		for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) {
 				if ( !ver.l.isEmpty() ){
-					for ( Lado ari : ver.l ) {
+					for ( Arista ari : ver.l ) {
 						listaari.offer(ari);
 					}
 					return listaari;
@@ -205,16 +170,14 @@ public class GrafoNoDirigido implements Grafo
 				throw new NoSuchElementException();
 			}
     		}
-    		return listaari;
+    		return listaVer;
 	}
     public Object clone() {
-		GrafoNoDirigido grafoClon = new GrafoNoDirigido();
+		GrafoNoDirigido grafoClon = new GrafoNoDir();
 		for ( VerticeNoDir ver : this.lista ) {
-			grafoClon.lista.offer(new VerticeNoDir(new Vertice(ver.v.getId(), 
-														 ver.v.getPeso() )));
+			grafoClon.l.offer(new Vertice(ver.v.getId(), ver.v.getPeso() ));
 			for ( Arista a : ver.l ) {
-			  grafoClon.lista.getLast().l.offer(new Arista(a.getId(),a.getPeso()
-											,a.getExtremo1(),a.getExtremo2()));
+				grafoClon.getLast().l.offer(new Arista(a.getId(),a.getPeso()));
 			}
 		}
 		return grafoClon;	
@@ -228,12 +191,7 @@ public class GrafoNoDirigido implements Grafo
 
     public boolean agregarArista(Arista a) {
     		boolean estaV,estaU;
-    		estaV=false;
-    		estaU=false;
       	VerticeNoDir v1,v2;
-      	v1 = null;
-      	v2 = null;
-      	
       	for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(a.getExtremo1()) ) {
 				v1 = ver;
@@ -245,23 +203,18 @@ public class GrafoNoDirigido implements Grafo
 			}
 			if ( estaU && estaV ) {
 				Arista 	a1;
-				a1 = new Arista(a.getId(),a.getPeso(),v2.v,v1.v);
+				a1 = new Arista(id,peso,v2.v,v1.v);
 				v1.l.offer(a);
 				v2.l.offer(a1);
 				this.numArista++;	
 				return true;	
 			}
       	}	
-      	return false;
     }
 
     public boolean agregarArista(String id, double peso, String u, String v) {
       	boolean estaV,estaU;
-      	VerticeNoDir v1,v2;		
-      	v1 = null;
-      	v2 = null;
-      	estaV=false;
-    		estaU=false;
+      	VerticeNoDir v1,v2;
       	for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(u) ) {
 				v1 = ver;
@@ -282,6 +235,8 @@ public class GrafoNoDirigido implements Grafo
 			}
       	}	
 		return false;
+    		
+    
     }
     
     public boolean eliminarArista(String id) {
@@ -308,16 +263,5 @@ public class GrafoNoDirigido implements Grafo
 				}
 			}
     		}
-		throw new NoSuchElementException();
-    }
-
-    public void mostrar()
-    {
-    
-    		System.out.println(this.lista.getLast().v.getId()+" "+this.lista.getLast().v.getPeso());
-    }
-    public void mostrarLado(Arista a)
-    {
-    		System.out.println(a.getId()+" "+a.getPeso());
     }
 }

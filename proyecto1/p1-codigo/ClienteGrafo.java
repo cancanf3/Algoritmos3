@@ -5,11 +5,53 @@
 import java.util.*;
 
 public class ClienteGrafo {
+
   public static void main(String [] args) {
-  	Vertice v1 = new Vertice("1",1);
-	Vertice v2 = new Vertice("2",2);
-  	Arco hola = new Arco("123456",3,v1,v2);
-	System.out.println(hola.getId());
-	Digrafo g = new Digrafo();
+  	GrafoNoDirigido g= new GrafoNoDirigido();
+	g.cargarGrafo("MediumGraph.in");
+	LinkedList<Aristas> l2 = new LinkedList<Arista>();	
+	LinkedList<Vertice> l1 = new LinkedList<Vertice>();
+
+	l1 = g.adyacentes("85164");
+	l2 = g.incidentes("85164");
+	
+	
+	l1 = g.adyacentes("428");
+	l2 = g.incidentes("428");
+
+	
+	l1 = g.adyacentes("579");
+	l2 = g.incidentes("579");
+	
+	
+// Adyacentes Nodo 85164 = [1096,3217,65691]
+// Incidentes Nodo 85164 = [6409,131141,170139]
+// Grado Interior Nodo 85164 = 2
+// Grado Exterior Nodo 85164 = 1
+// Predecesores Nodo 85164 = [3217,65691]
+// Sucesores Nodo 85164 = [1096]
+
+// Adyacentes Nodo 428 = [4148,5170,29444,37570]
+// Incidentes Nodo 428 = [880,10398,58804,74938]
+// Grado Interior Nodo 428 = 3
+// Grado Exterior Nodo 428 = 1
+// Predecesores Nodo 428 = [5170,29444,37570]
+// Sucesores Nodo 428 = [4148]
+
+// Adyacentes Nodo 579 = [89093,91619]
+// Incidentes Nodo 579 = [1172,174028]
+// Grado Interior Nodo 579 = 1
+// Grado Exterior Nodo 579 = 1
+// Predecesores Nodo 579 = [87093]
+// Sucesores Nodo 579 = [91619]
+
+// Adyacentes Nodo 1522 = [25115,36321,39309,46604]
+// Incidentes Nodo 1522 = [3062,50034,78359,92946]
+// Grado Interior Nodo 1522 = 3
+// Grado Exterior Nodo 1522 = 1
+// Predecesores Nodo 1522 = [25115,39309,46604]
+// Sucesores Nodo 1522 = [36321]
+
+	
   }
 }

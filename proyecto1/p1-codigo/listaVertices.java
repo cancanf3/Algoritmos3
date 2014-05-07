@@ -1,7 +1,7 @@
 
 import java.util.*;
 
-public class VerticeDir
+class VerticeDir
 {
 	Vertice v;
 	LinkedList<Arco> l1; 
@@ -9,12 +9,13 @@ public class VerticeDir
 	public VerticeDir(Vertice v)
 	{
 		this.v = v;
-		this.l = new LinkedList<Arco>();
+		this.l1 = new LinkedList<Arco>();
+		this.l2 = new LinkedList<Arco>();
 	}
 }
 
 
-public class VerticeNoDir 
+class VerticeNoDir 
 {
 	Vertice v; 
 	LinkedList<Arista> l;
