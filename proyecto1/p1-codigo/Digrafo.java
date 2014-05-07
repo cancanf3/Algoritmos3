@@ -11,6 +11,12 @@ public class Digrafo implements Grafo
     
     public Digrafo() {
         this.lista = new LinkedList<VerticeDir>() ;
+		this.numArco = 0;
+    }
+
+	public Digrafo(LinkedList<VerticeDir>listaady, int numArco) {						// Constructor opcional para Construir 
+		this.numArco = numArco;															// un Grafo con una lista de adyasencias construida
+        this.lista = listaady;
     }
 
 	public Digrafo(LinkedList<VerticeDir>listaady) {							// Constructor opcional para Construir 
@@ -19,6 +25,7 @@ public class Digrafo implements Grafo
     }
 
     public boolean cargarGrafo(String dirArchivo) {
+		return true;
     }
     
     public int numeroDeVertices() {
@@ -43,7 +50,7 @@ public class Digrafo implements Grafo
 
     public boolean agregarVertice(String id, double peso) {
 		for ( VerticeDir ver : this.lista ) {
-			if ( ver.v.getId().equals(v.getId()) ) {
+			if ( ver.v.getId().equals(id) ) {
 				return false;
 			}
 		}
@@ -55,7 +62,7 @@ public class Digrafo implements Grafo
     public Vertice obtenerVertice(String id) {
 		for ( VerticeDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) {
-				return ver.v
+				return ver.v;
 			}
 		}
 		throw new NoSuchElementException();
@@ -74,8 +81,8 @@ public class Digrafo implements Grafo
     public boolean estaLado(String u, String v){
 		for	( VerticeDir ver : this.lista ) {
 			if ( ver.v.getId().equals(u) ) {
-				for ( Arco arc : this.lista.l1 ) {
-					if ( ari.getextremoFinal().getId().equals(v) ) {
+				for ( Arco arc : ver.l1 ) {
+					if ( arc.getExtremoFinal().getId().equals(v) ) {
 						return true;
 					}
 				}
@@ -92,12 +99,12 @@ public class Digrafo implements Grafo
 			if ( ver.v.getId().equals(id) ) {
 				esta = true;
 				for ( Arco arc : ver.l1 ) {
-					if ( arc.getextremoInicial() == arc.getextremoFinal() ) {
-						aux2.offer(arc.getextremoInicial() );
+					if ( arc.getExtremoInicial() == arc.getExtremoFinal() ) {
+						aux2.offer(arc.getExtremoInicial() );
 					}
 					else {
-						aux2.offer(arc.getextremoFinal());
-						aux2.offer(arc.getextremoInicial());
+						aux2.offer(arc.getExtremoFinal());
+						aux2.offer(arc.getExtremoInicial());
 						ver.l1.remove(ver.l1.indexOf(arc));
 					}
 				}	
@@ -105,21 +112,23 @@ public class Digrafo implements Grafo
 		}
 
 		while ( aux2.isEmpty() ) {
-			for ( Arco arc : ver.l2.get(ver.l2.indexOf(aux2.poll())) ) {
-				if ( arc.getextremoFinal().getId().equals(id) ) { 
-					arc.remove(arc.indexOf());
+			LinkedList<Arco> arcox1 = this.lista.get(this.lista.indexOf(aux2.poll())).l2;
+			for ( Arco arc :  arcox1 ) {
+				if ( arc.getExtremoFinal().getId().equals(id) ) { 
+					arcox1.remove(arcox1.indexOf(arc));
 				}
-				else if ( arc.getextremoInicial().getId().equals(id) ) {
-					aux1.offer(arc.getextremoFinal());
-					arc.remove(arc.indexOf());
+				else if ( arc.getExtremoInicial().getId().equals(id) ) {
+					aux1.offer(arc.getExtremoFinal());
+					arcox1.remove(arcox1.indexOf(arc));
 				}
 			}
 		}
 
 		while ( aux1.isEmpty() ) {
-			for ( Arco arc : ver.l1.get(ver.l1.indexOf(aux1.poll())) ) {
-				if ( arc.getextremoFinal().getId().equals(id) ) {
-					arc.remove(arc.indexOf());
+			LinkedList<Arco> arcox1 = this.lista.get(this.lista.indexOf(aux1.poll())).l1;
+			for ( Arco arc : arcox1 ) {
+				if ( arc.getExtremoFinal().getId().equals(id) ) {
+					arcox1.remove(arcox1.indexOf(arc));
 				}
 			}
 		}
@@ -129,11 +138,16 @@ public class Digrafo implements Grafo
     }
 
     public List<Vertice> vertices() {
+<<<<<<< HEAD
 		List<Vertice> listver = new LinkedList<Vertice>();
+=======
+		LinkedList<Vertice> listver = new LinkedList<Vertice>();
+>>>>>>> FETCH_HEAD
 		for ( VerticeDir ver : this.lista ) { 
 			listver.offer(ver.v);
 		}
 		return listver;
+<<<<<<< HEAD
 
     }
 
@@ -142,14 +156,29 @@ public class Digrafo implements Grafo
 		for ( VerticeDir ver ; this.lista ) {
 			for ( Arco arc ; this.lista ) {
 				listarc.offer(arc);
+=======
+			
+    }
+
+    public List<Lado> lados() {
+		List<Lado> listarc = new LinkedList<Lado>();
+		for ( VerticeDir ver : this.lista ) {
+			for ( Lado arc : ver.l1 ) {
+				listarc.add(arc);
+>>>>>>> FETCH_HEAD
 			}
 		}
 		return listarc;
     }
 
     public int grado(String id) {
+<<<<<<< HEAD
 		int gout;
 		int gin;
+=======
+		int gout = 0;
+		int gin = 0;
+>>>>>>> FETCH_HEAD
 		boolean hay = false;
 
 		for ( VerticeDir ver : this.lista ) {
@@ -164,42 +193,71 @@ public class Digrafo implements Grafo
 				gin = ver.l2.size();
 			}
 		}
+<<<<<<< HEAD
 		if ! hay {
+=======
+		if ( ! hay ) {
+>>>>>>> FETCH_HEAD
 			throw new NoSuchElementException();
 		}
 		return gin + gout;
     }
 
     public List<Vertice> adyacentes(String id) {
+<<<<<<< HEAD
 		List<Vertice> listaver = new LinkedList<Vertice>();
+=======
+		LinkedList<Vertice> listaver = new LinkedList<Vertice>();
+>>>>>>> FETCH_HEAD
 		boolean hay = false;	
 
 		for ( VerticeDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) {
 				hay = true;
 				for (Arco arc : ver.l1 ) {
+<<<<<<< HEAD
 					listaver.addLast(arc.getextremoFinal());
 				}
 			}
 		}
 		if ! hay {
+=======
+					listaver.addLast(arc.getExtremoFinal());
+				}
+			}
+		}
+		if ( ! hay ) {
+>>>>>>> FETCH_HEAD
 			throw new NoSuchElementException();
 		}
 		return listaver;
     }
  
     public List<Lado> incidentes(String id) {
+<<<<<<< HEAD
 		List<Lado> listaari = new LinkedList<Arco>(); 
+=======
+		LinkedList<Lado> listaari = new LinkedList<Lado>(); 
+>>>>>>> FETCH_HEAD
 		boolean hay = false;
 		for ( VerticeDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) {
 				hay = false;
+<<<<<<< HEAD
 				for ( Arco arc : ver.l2 ) {
 					listaari.addLast(arc.getextremoFinal());
 				}
 			}
 		}
 		if ! hay {
+=======
+				for ( Lado arc : ver.l2 ) {
+					listaari.offer(arc);
+				}
+			}
+		}
+		if ( ! hay ) {
+>>>>>>> FETCH_HEAD
 			throw new NoSuchElementException();
 	}
 		return listaari;
@@ -207,6 +265,7 @@ public class Digrafo implements Grafo
 
     public Object clone() {
 		LinkedList<VerticeDir> listaclon = new LinkedList<VerticeDir>();
+<<<<<<< HEAD
 		Digrafo digrafoclon; 
 		for ( VerticeDir ver : this.lista ) {
 			listaclon.offer(new VerticeDir(ver.v))
@@ -221,47 +280,195 @@ public class Digrafo implements Grafo
 			}
 		}
 		digrafoclon = new Digrafo(listaclon);	
+=======
+		Digrafo digrafoclon;
+		int clonnumArco;
+		for ( VerticeDir ver : this.lista ) {
+			listaclon.offer(new VerticeDir(ver.v));
+			for ( Arco arc : ver.l1 ) { 
+				listaclon.getLast().l1.offer(new Arco(arc.getId(),arc.getPeso(),
+											 arc.getExtremoInicial(),
+											 arc.getExtremoFinal()));
+			}
+
+			for ( Arco arc : ver.l2 ) {
+				listaclon.getLast().l2.offer(new Arco(arc.getId(),arc.getPeso(),
+											arc.getExtremoFinal(),
+											arc.getExtremoInicial()));
+			}
+		}
+		clonnumArco = this.numArco;
+		digrafoclon = new Digrafo(listaclon, clonnumArco);	
+>>>>>>> FETCH_HEAD
 		return digrafoclon;
 	}
 
     public String toString() {
+		return "hola";
     }
 
     public boolean agregarArco(Arco a) {
 		boolean esta = false;
 		for ( VerticeDir ver : this.lista ) {
+<<<<<<< HEAD
 			if ver.v.getId().equals(a.getextremoInicial().getId()) {
+=======
+			if  ( ver.v.getId().equals(a.getExtremoInicial().getId()) ) {
+>>>>>>> FETCH_HEAD
 				for ( Arco arc : ver.l1 ) {
 					if	( arc.getId().equals(a.getId()) ) {
 						esta = true;
 					}
 				}
+<<<<<<< HEAD
 				if ! esta { 
 					ver.l1.offer(a);
 				}
 			}	
 			}
+=======
+				if ( ! esta ) { 
+					ver.l1.offer(a);
+				}
+				
+			}
+		}
+
+		for ( VerticeDir ver : this.lista ) {
+			if ( ver.v.getId().equals(a.getExtremoFinal().getId()) ) {  
+				ver.l2.offer(new Arco(a.getId(), a.getPeso(),
+							a.getExtremoFinal(), a.getExtremoInicial() ));
+			}
+		}
+		this.numArco ++;
+		return esta;
+>>>>>>> FETCH_HEAD
     } 
 
-    public boolean agregarArco(String id, double peso){ 
+    public boolean agregarArco(String id, double peso, String u, String v) { 
+		boolean esta = false;
+		Vertice ver1 = null;
+		Vertice ver2 = null;
+		Arco arco1 = null;
+		Arco arco2 = null;
+		for ( VerticeDir ver : this.lista ) { 
+			if ( ver.v.getId().equals(u) ) {
+				ver1 = new Vertice(ver.v.getId(), ver.v.getPeso());
+			}
+			if ( ver.v.getId().equals(v) ) {
+				ver2 = new Vertice(ver.v.getId(), ver.v.getPeso());
+			}
+		}
+
+		arco1 = new Arco( id, peso, ver1, ver2);
+		arco2 = new Arco( id, peso, ver2, ver1);
+			
+		for ( VerticeDir ver : this.lista ) {
+			if ( ver.v.getId().equals(u) ) {
+				for ( Arco arc : ver.l1 ) {
+					if ( arc.getId().equals(id) ) {
+						esta = true;
+					}
+				}
+				if ( ! esta )  {
+					ver.l1.offer(arco1);
+				}
+			}
+		}
+
+		for ( VerticeDir ver : this.lista ) {
+			if ( ver.v.getId().equals(v) ) {
+				ver.l2.offer(arco2);
+			}
+		}
+		this.numArco ++;
+		return esta;
+
     }
 
     public int gradoInterior(String id) {
-    		return 0;
+		for ( VerticeDir ver : this.lista ) {
+			if ( ver.v.getId().equals(id) ) {
+				return ver.l2.size();
+			}
+		}
+		throw new NoSuchElementException();
     }
 
     public int gradoExterior(String id) {
+		for ( VerticeDir ver : this.lista ) {
+			if ( ver.v.getId().equals(id) ) {
+				return ver.l1.size();
+			}
+		}
+		throw new NoSuchElementException();
     }
 
     public List<Vertice> sucesores(String id) {
+		LinkedList<Vertice> listaver = new LinkedList<Vertice>();
+		for ( VerticeDir ver : this.lista ) {
+			if ( ver.v.getId().equals(id) ) {
+				for ( Arco arc : ver.l1 ) {
+					if ( ! listaver.contains(arc.getExtremoFinal()) ) {
+						listaver.offer(arc.getExtremoFinal());
+					}
+				}
+				return listaver;
+			}
+		}
+		throw new NoSuchElementException();
     }
 
     public List<Vertice> predecesores(String id) {
+		LinkedList<Vertice> listaver = new LinkedList<Vertice>();
+		for ( VerticeDir ver : this.lista ) {
+			if ( ver.v.getId().equals(id) ) {
+				for ( Arco arc : ver.l2 ) {
+					if ( ! listaver.contains(arc.getExtremoFinal()) ) {
+						listaver.offer(arc.getExtremoFinal());
+					}
+				}
+				return listaver;
+			}
+		}
+		throw new NoSuchElementException();
     }
 
     public boolean eliminarArco(String id) {
+		String verid = "";
+		boolean eliminado = false;
+		for ( VerticeDir ver : this.lista ) { 
+			for ( Arco arc : ver.l1 ) {
+				if ( arc.getId().equals(id) ) {
+					verid = arc.getExtremoFinal().getId();
+					ver.l1.remove(ver.l1.indexOf(arc));		
+				}
+			}
+		}
+
+		for ( VerticeDir ver : this.lista ) {
+			if ( ver.v.getId().equals(verid) ) {
+				for ( Arco arc : ver.l2 ) {
+					if ( arc.getId().equals(id) ) {
+						ver.l2.remove(ver.l2.indexOf(arc));
+						eliminado = true;
+					}
+				}
+			}
+		}
+		return eliminado;
+
     }
 
     public Arco obtenerArco(String id) {
+		for ( VerticeDir ver : this.lista ) {
+			for ( Arco arc : ver.l1 ) {
+				if ( arc.getId().equals(id) ) {
+					return arc;
+				}
+			}
+		}
+		throw new NoSuchElementException();
+
     }	
 }

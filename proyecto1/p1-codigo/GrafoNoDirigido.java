@@ -54,7 +54,10 @@ public class GrafoNoDirigido implements Grafo
 	  }
     
     public int numeroDeVertices() {
+<<<<<<< HEAD
 
+=======
+>>>>>>> FETCH_HEAD
 		return this.lista.size();
     }
 
@@ -141,15 +144,25 @@ public class GrafoNoDirigido implements Grafo
     		return false;
 	}
     public List<Vertice> vertices() {
+<<<<<<< HEAD
     		List<Vertice> listaVer = new LinkedList<Vertice>();
     		for ( VerticeNoDir ver : this.lista ) {
 			listaVer.add(ver.v);
+=======
+    		List<Vertice> listaVer = new List<Vertice>();
+    		for ( Vertice ver : this.lista ) {
+			listaVer.add(ver);
+>>>>>>> FETCH_HEAD
     		}
     		return listaVer;
     }
 
     public List<Lado> lados() {
+<<<<<<< HEAD
     		LinkedList<Lado> listaari = new LinkedList<Lado>();
+=======
+    		List<Lado> listaari = new LinkedList<Arista>();
+>>>>>>> FETCH_HEAD
     		for ( VerticeNoDir ver : this.lista ) {
 			for ( Arista ari : ver.l ) {
 				boolean esta=false;
@@ -169,15 +182,25 @@ public class GrafoNoDirigido implements Grafo
 
     public int grado(String id) {
     		for ( VerticeNoDir ver : this.lista ) {
+<<<<<<< HEAD
 			if ( ver.v.getId().equals(id) ) {
 				return ver.l.size();
+=======
+
+			if ( ver.v.getId().equals(id) ) {
+				return ver
+>>>>>>> FETCH_HEAD
 			} 
 		}
 		throw new NoSuchElementException();
     }
 
     public List<Vertice> adyacentes(String id) {
+<<<<<<< HEAD
     		LinkedList<Vertice> listaVer = new LinkedList<Vertice>();
+=======
+    		Lista<Vertices> listaVer = new LinkedList<Vertices>();
+>>>>>>> FETCH_HEAD
     		for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) {
 				if ( !ver.l.isEmpty() ){
@@ -193,6 +216,7 @@ public class GrafoNoDirigido implements Grafo
     }
  
     public List<Lado> incidentes(String id) {
+<<<<<<< HEAD
 		LinkedList<Lado> listaari = new LinkedList<Lado>();
     		for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) {
@@ -201,6 +225,19 @@ public class GrafoNoDirigido implements Grafo
 						listaari.offer(ari);
 					}
 					return listaari;
+=======
+    		int[][] matriz = new int[this.lista.size()][this.lista.size()];
+    		List<Lado> listaLados = new LinkedList<Arista>();
+    		int i,j,k,posVerId;
+    		Vertice verId;
+    		for ( i = 0 ; i < this.lista.size() ; i++) {
+    			for ( j = 0 ; j < this.lista.size() ; j++) {
+    				if ( i == j ) {
+					matriz[i][i] = 1;
+    				}
+    				else {
+    					matriz[i][j] = 0;
+>>>>>>> FETCH_HEAD
 				}
 				throw new NoSuchElementException();
 			}
