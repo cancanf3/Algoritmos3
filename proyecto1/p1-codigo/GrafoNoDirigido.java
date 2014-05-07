@@ -104,7 +104,7 @@ public class GrafoNoDirigido implements Grafo
     		return false;
 	}
     public List<Vertice> vertices() {
-    		List<Vertice> listaVer = new List<Vertice>;
+    		List<Vertice> listaVer = new List<Vertice>();
     		for ( Vertice ver : this.lista ) {
 			listaVer.add(ver);
     		}
@@ -112,7 +112,7 @@ public class GrafoNoDirigido implements Grafo
     }
 
     public List<Lado> lados() {
-    		List<Lado> listaari = new LinkedList<Arista>;
+    		List<Lado> listaari = new LinkedList<Arista>();
     		for ( VerticeNoDir ver : this.lista ) {
 			for ( Arista ari : ver.l ) {
 				boolean esta=false;
@@ -141,7 +141,7 @@ public class GrafoNoDirigido implements Grafo
     }
 
     public List<Vertice> adyacentes(String id) {
-    		Lista<Vertices> listaVer = new LinkedList<Vertices>;
+    		Lista<Vertices> listaVer = new LinkedList<Vertices>();
     		for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) {
 				for ( Arista ari : ver.l ) {
@@ -154,7 +154,7 @@ public class GrafoNoDirigido implements Grafo
  
     public List<Lado> incidentes(String id) {
     		int[][] matriz = new int[this.lista.size()][this.lista.size()];
-    		List<Lado> listaLados = new LinkedList<Arista>;
+    		List<Lado> listaLados = new LinkedList<Arista>();
     		int i,j,k,posVerId;
     		Vertice verId;
     		for ( i = 0 ; i < this.lista.size() ; i++) {
