@@ -19,6 +19,11 @@ public class Digrafo implements Grafo
         this.lista = listaady;
     }
 
+	public Digrafo(LinkedList<VerticeDir>listaady) {							// Constructor opcional para Construir 
+																				// un Grafo con una lista de adyasencias construida
+        this.lista = listaady;
+    }
+
     public boolean cargarGrafo(String dirArchivo) {
 		return true;
     }
@@ -38,7 +43,7 @@ public class Digrafo implements Grafo
 				return false;
 			}
 		}
-		
+
 		this.lista.offer(new VerticeDir(v));
 		return true;
     }
@@ -61,7 +66,7 @@ public class Digrafo implements Grafo
 			}
 		}
 		throw new NoSuchElementException();
-		
+
     }
 
     public boolean estaVertice(String id) {
@@ -133,11 +138,25 @@ public class Digrafo implements Grafo
     }
 
     public List<Vertice> vertices() {
+<<<<<<< HEAD
+		List<Vertice> listver = new LinkedList<Vertice>();
+=======
 		LinkedList<Vertice> listver = new LinkedList<Vertice>();
+>>>>>>> FETCH_HEAD
 		for ( VerticeDir ver : this.lista ) { 
 			listver.offer(ver.v);
 		}
 		return listver;
+<<<<<<< HEAD
+
+    }
+
+    public List<Lado> lados() {
+		List<Lado> listarc = new LinkedList<Arco>();
+		for ( VerticeDir ver ; this.lista ) {
+			for ( Arco arc ; this.lista ) {
+				listarc.offer(arc);
+=======
 			
     }
 
@@ -146,14 +165,20 @@ public class Digrafo implements Grafo
 		for ( VerticeDir ver : this.lista ) {
 			for ( Lado arc : ver.l1 ) {
 				listarc.add(arc);
+>>>>>>> FETCH_HEAD
 			}
 		}
 		return listarc;
     }
 
     public int grado(String id) {
+<<<<<<< HEAD
+		int gout;
+		int gin;
+=======
 		int gout = 0;
 		int gin = 0;
+>>>>>>> FETCH_HEAD
 		boolean hay = false;
 
 		for ( VerticeDir ver : this.lista ) {
@@ -168,42 +193,71 @@ public class Digrafo implements Grafo
 				gin = ver.l2.size();
 			}
 		}
+<<<<<<< HEAD
+		if ! hay {
+=======
 		if ( ! hay ) {
+>>>>>>> FETCH_HEAD
 			throw new NoSuchElementException();
 		}
 		return gin + gout;
     }
 
     public List<Vertice> adyacentes(String id) {
+<<<<<<< HEAD
+		List<Vertice> listaver = new LinkedList<Vertice>();
+=======
 		LinkedList<Vertice> listaver = new LinkedList<Vertice>();
+>>>>>>> FETCH_HEAD
 		boolean hay = false;	
 
 		for ( VerticeDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) {
 				hay = true;
 				for (Arco arc : ver.l1 ) {
+<<<<<<< HEAD
+					listaver.addLast(arc.getextremoFinal());
+				}
+			}
+		}
+		if ! hay {
+=======
 					listaver.addLast(arc.getExtremoFinal());
 				}
 			}
 		}
 		if ( ! hay ) {
+>>>>>>> FETCH_HEAD
 			throw new NoSuchElementException();
 		}
 		return listaver;
     }
  
     public List<Lado> incidentes(String id) {
+<<<<<<< HEAD
+		List<Lado> listaari = new LinkedList<Arco>(); 
+=======
 		LinkedList<Lado> listaari = new LinkedList<Lado>(); 
+>>>>>>> FETCH_HEAD
 		boolean hay = false;
 		for ( VerticeDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) {
 				hay = false;
+<<<<<<< HEAD
+				for ( Arco arc : ver.l2 ) {
+					listaari.addLast(arc.getextremoFinal());
+				}
+			}
+		}
+		if ! hay {
+=======
 				for ( Lado arc : ver.l2 ) {
 					listaari.offer(arc);
 				}
 			}
 		}
 		if ( ! hay ) {
+>>>>>>> FETCH_HEAD
 			throw new NoSuchElementException();
 	}
 		return listaari;
@@ -211,6 +265,22 @@ public class Digrafo implements Grafo
 
     public Object clone() {
 		LinkedList<VerticeDir> listaclon = new LinkedList<VerticeDir>();
+<<<<<<< HEAD
+		Digrafo digrafoclon; 
+		for ( VerticeDir ver : this.lista ) {
+			listaclon.offer(new VerticeDir(ver.v))
+			for ( Arco arc : ver.l1 ) { 
+				listaclon.getLast().l1.offer(new Arco(arc.getId(), 
+											 arc.getpeso()));
+			}
+
+			for ( Arco arc : ver.l2 ) {
+				listaclon.getLast().l2.offer(new Arco(arc.getId(), 
+											 arc.getpeso()));
+			}
+		}
+		digrafoclon = new Digrafo(listaclon);	
+=======
 		Digrafo digrafoclon;
 		int clonnumArco;
 		for ( VerticeDir ver : this.lista ) {
@@ -229,6 +299,7 @@ public class Digrafo implements Grafo
 		}
 		clonnumArco = this.numArco;
 		digrafoclon = new Digrafo(listaclon, clonnumArco);	
+>>>>>>> FETCH_HEAD
 		return digrafoclon;
 	}
 
@@ -239,12 +310,23 @@ public class Digrafo implements Grafo
     public boolean agregarArco(Arco a) {
 		boolean esta = false;
 		for ( VerticeDir ver : this.lista ) {
+<<<<<<< HEAD
+			if ver.v.getId().equals(a.getextremoInicial().getId()) {
+=======
 			if  ( ver.v.getId().equals(a.getExtremoInicial().getId()) ) {
+>>>>>>> FETCH_HEAD
 				for ( Arco arc : ver.l1 ) {
 					if	( arc.getId().equals(a.getId()) ) {
 						esta = true;
 					}
 				}
+<<<<<<< HEAD
+				if ! esta { 
+					ver.l1.offer(a);
+				}
+			}	
+			}
+=======
 				if ( ! esta ) { 
 					ver.l1.offer(a);
 				}
@@ -260,6 +342,7 @@ public class Digrafo implements Grafo
 		}
 		this.numArco ++;
 		return esta;
+>>>>>>> FETCH_HEAD
     } 
 
     public boolean agregarArco(String id, double peso, String u, String v) { 

@@ -1,0 +1,27 @@
+# Adyacentes Nodo 6 = [3,4,5,14,17,24,29,32,33,38,46,52,56,63,64,67,73,87,97]
+# Incidentes Nodo 6 = [34,36,56,57,58,59,60,61,62,63,64,145,169,248,333,374,513,722,879]
+# Grado Interior Nodo 6 = 10
+# Grado Exterior Nodo 6 = 9
+# Predecesores Nodo 6 = [3,4,14,17,24,33,38,52,73,87]
+# Sucesores Nodo 6 = [32,63,64,46,97,67,29,5,56]
+
+# Adyacentes Nodo 10 = [11,13,16,17,22,23,25,32,49,50,53,56,65,69,70,78,79,80,81,89,96,97]
+# Incidentes Nodo 10 = [92,93,94,95,96,97,98,99,100,158,173,231,241,326,486,489,497,524,637,680,691,791,796,797,894,970]
+# Grado Interior Nodo 10 = 17
+# Grado Exterior Nodo 10 = 9
+# Predecesores Nodo 10 = [16,17,22,23,32,49,50,53,65,69,70,79,89,97] OJO Existen dos arcos al nodo 50 y tres al 79
+# Sucesores Nodo 10 = [11,13,25,56,78,80,81,96] OJO: Existen dos arcos al nodo 78
+
+# Adyacentes Nodo 15 = [2,12,18,22,29,31,36,44,45,76,77,80,83,88,91,93,94]
+# Incidentes Nodo 15 = [12,116,147,148,149,150,151,152,153,154,155,302,445,749,772,808,826,912,917]
+# Grado Interior Nodo 15 = 10
+# Grado Exterior Nodo 15 = 9
+# Predecesores Nodo 15 = [2,12,29,45,76,77,80,83,91] OJO: Doble arco 91
+# Sucesores Nodo 15 = [18,22,31,36,44,88,93,94] OJO: Doble arco 31
+
+# Adyacentes Nodo 22 = [10,11,15,16,17,19,27,31,43,44,47,59,62,63,64,65,67,72,76,82,84,94,100]
+# Incidentes Nodo 22 = [151,162,223,224,225,226,227,228,229,230,231,232,233,234,235,584,603,614,632,634,662,713,753,837,939]
+# Grado Interior Nodo 22 = 12
+# Grado Exterior Nodo 22 = 13
+# Predecesores Nodo 22 = [15,17,59,62,63,65,67,72,76,84,94] OJO: Doble arco 65
+# Sucesores Nodo 22 = [10,11,16,19,27,31,43,44,47,62,64,82,100]
