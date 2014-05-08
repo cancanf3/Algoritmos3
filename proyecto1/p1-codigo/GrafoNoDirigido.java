@@ -39,8 +39,8 @@ public class GrafoNoDirigido implements Grafo
 				str = Buffer.readLine();
 				String[] str1 = str.split(" ");
 				
-				this.agregarArista(str1[0],Integer.parseInt(str1[1])
-												   ,str1[2],str1[3]);
+				this.agregarArista(str1[0],Integer.parseInt(str1[3]),
+									str1[1],str1[2]);
 				System.out.println(" arista "+i);
 			}
 
@@ -211,7 +211,7 @@ public class GrafoNoDirigido implements Grafo
     		}
     		return listaari;
 	}
-    public Object clone() {
+    public GrafoNoDirigido clone() {
 		GrafoNoDirigido grafoClon = new GrafoNoDirigido();
 		for ( VerticeNoDir ver : this.lista ) {
 			grafoClon.lista.offer(new VerticeNoDir(new Vertice(ver.v.getId(), 

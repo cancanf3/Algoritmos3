@@ -8,53 +8,53 @@ public class ClienteGrafo {
 
   public static void main(String [] args) {
   	Digrafo g= new Digrafo();
-	g.cargarGrafo("archivo.txt");
-	LinkedList<Aristas> l2 = new LinkedList<Arista>();	
-	LinkedList<Vertice> l1 = new LinkedList<Vertice>();
+	Digrafo h = new Digrafo();
+	g.cargarGrafo("ToyGraph.in");
+	h = g.clone();
+	System.out.println(g.numeroDeVertices());
+	List<Vertice> l2 = new LinkedList<Vertice>();	
+	List<Vertice> l1 = new LinkedList<Vertice>();
+	g.eliminarArco("63");
 	l1 = g.adyacentes("7");
-	l2 = g.incidentes("7");
+	l2 = g.predecesores("7");
 
 	for ( Vertice ver : l1 ) {
-		System.out.print(ver.getId());
+		System.out.print(ver.getId()+" ");
 	}
 	System.out.println();
-	for ( Lado ver : l1 ) {
-		System.out.print(ver.getId());
-	}
-	System.out.println();
-
-	l1 = g.adyacentes("5");
-	l2 = g.incidentes("5");
-
-	for ( Vertice ver : l1 ) {
-		System.out.print(ver.getId());
-	}
-	System.out.println();
-	for ( Lado ver : l1 ) {
-		System.out.print(ver.getId());
+	for ( Vertice ver : l2 ) {
+		System.out.print(ver.getId()+" ");
 	}
 	System.out.println();
 
 	l1 = g.adyacentes("1");
-	l2 = g.incidentes("1");
+	l2 = g.predecesores("1");
 
 	for ( Vertice ver : l1 ) {
-		System.out.print(ver.getId());
+		if ( ver == null ) {
+			System.out.println("nulo");
+			break;
+		}
+		System.out.print(ver.getId()+" ");
 	}
 	System.out.println();
-	for ( Lado ver : l1 ) {
-		System.out.print(ver.getId());
+	for ( Vertice ver : l2 ) {
+		System.out.print(ver.getId()+" ");
 	}
 	System.out.println();
 
-	l1 = g.adyacentes("428");
-	l2 = g.incidentes("428");
+	l1 = g.adyacentes("5");
+	l2 = g.predecesores("5");
 
-	
-	l1 = g.adyacentes("579");
-	l2 = g.incidentes("579");
-	
-	
+	for ( Vertice ver : l1 ) {
+		System.out.print(ver.getId()+" ");
+	}
+	System.out.println();
+	for ( Vertice ver : l2 ) {
+		System.out.print(ver.getId()+" ");
+	}
+	System.out.println();
+
 	
   }
 }
