@@ -3,63 +3,94 @@
  */
 
 import java.util.*;
+import java.io.*;
 
 
 public class GrafoNoDirigido implements Grafo
 {
-	private LinkedList<VerticeNoDir> lista;
-	private int numArista;
+	private LinkedList<VerticeNoDir> lista;											// Lista de Adyasencias
+	private int numArista;															// Numero de Aritas
+	private int numVertice;															// Numero de Vertices
 	
-    public GrafoNoDirigido() {
-		lista = new LinkedList<VerticeNoDir>();
+    public GrafoNoDirigido() {														// GrafoNoDirigido() -- > salida: dato tipo GrafoNoDirigido
+		this.lista = new LinkedList<VerticeNoDir>();								// pre: true post: true
+		this.numArista = 0;															// Orden: O(1)
+		this.numVertice = 0;
 		
     }
 
     public boolean cargarGrafo(String dirArchivo) {
-    }
+	      try{		   
+			Scanner sn = new Scanner(new File(dirArchivo));
+
+			int ver = sn.nextInt();
+			int aris  = sn.nextInt();
+			for (int i=0 ; i < ver ; i++) {
+				this.agregarVertice(Integer.toString(sn.nextInt()),sn.nextInt());
+				mostrar();
+			}
+			
+			for (int i=0 ; i < numArista ; i++) {
+				this.agregarArista(Integer.toString(sn.nextInt()),sn.nextInt(),
+											(Integer.toString(sn.nextInt())),
+											(Integer.toString(sn.nextInt())));
+				System.out.println(" arista "+i);
+			}
+
+			System.out.println(this.numVertice);
+			mostrar();
+	    }catch(IOException e) { 
+	    		System.out.println(" Error en la lectura del archivo Archivo"); 
+	    		return false;
+	    		};
+	    		return true;
+	  }
     
-    public int numeroDeVertices() {
-		return this.lista.size();
+    public int numeroDeVertices() {													// numeroDeVertices ( ) --> salida: entero numero de los vertices
+																					// pre: true post: numeroDeVertices
+		return this.lista.size();													// Orden: O(1)	
     }
 
-    public int numeroDeLados() {
-		return numArista;
-    }
+    public int numeroDeLados() {													// numeroDeLados ( ) --> salida: entero numero de los lados
+		return numArista;															// pre: true post: numArista
+    }																				// Orden: O(1)
    
-    public boolean agregarVertice(Vertice v) {
-		for ( VerticeNoDir ver :this.lista ) {
-			if ( ver.v.getId().equals(v.getId()) ) { 
+    public boolean agregarVertice(Vertice v) {										// agregarVertice ( entrada: un vertice v ) --> salida: booleano
+		for ( VerticeNoDir ver :this.lista ) {										// pre: true post: boolean == ( v pertenece Lista ) 
+			if ( ver.v.getId().equals(v.getId()) ) { 								// Orden: O(n)
 				return false;
 			}
 		}
 
-		lista.offer(new VerticeNodir(v));
+		lista.offer(new VerticeNoDir(v));
+		this.numVertice++;
 		return true;
     }
 
-    public boolean agregarVertice(String id, double peso) {
-		for ( VerticeNoDir ver : this.lista ) {
-			if ( ver.v.getId().equals(id) ) { 
+    public boolean agregarVertice(String id, double peso) {							// agregarVertice ( entrada: un vertice v ) --> salida: booleano 
+		for ( VerticeNoDir ver : this.lista ) {										// pre: true post: boolean == ( v pertenece Lista )
+			if ( ver.v.getId().equals(id) ) { 										// Orden: O(n)
 				return false;
 			}
 		}
 		Vertice v = new Vertice(id,peso);	
-		this.lista.offer(new VerticeNodir(v));
+		this.lista.offer(new VerticeNoDir(v));
+		this.numVertice++;
 		return true;
     }
     
-    public Vertice obtenerVertice(String id) {
-		for ( VerticeNoDir ver : this.lista ) {
-			if ( ver.v.getId().equals(id) ) { 
+    public Vertice obtenerVertice(String id) {										// obtenerVertice( entrada: String id del vertice ) --> salida: Vertice v
+		for ( VerticeNoDir ver : this.lista ) {										// pre: true post: v == ( v pertenece a Lista )
+			if ( ver.v.getId().equals(id) ) { 										// Orden: O(n)
 				return ver.v;
 			}
 		}
 		throw new NoSuchElementException();
     }
 
-    public boolean estaVertice(String id) {
-		for ( VerticeNoDir ver : this.lista ) {
-			if ( ver.v.getId().equals(id) ) { 
+    public boolean estaVertice(String id) {											// estaVertice ( entrada: String id del vertice ) --> salida: boolean
+		for ( VerticeNoDir ver : this.lista ) {										// pre: true post: boolean == ( v.id pertenece a Lista ) 
+			if ( ver.v.getId().equals(id) ) { 										// Orden: O(n)
 				return true;
 			}
 		}
@@ -67,29 +98,28 @@ public class GrafoNoDirigido implements Grafo
 
     }
 
-    public boolean estaLado(String u, String v){
-    		for ( VerticeNoDir ver : this.lista ){
-			if ( ver.v.getId().equals(u) ){
-				for ( Arista ari : this.lista.l ) {
+    public boolean estaLado(String u, String v){									// estaLado (entrada: String u vertice inicial, String v vertice final) -> salida: boolean 
+    		for ( VerticeNoDir ver : this.lista ){									// pre: true post: boolean == ( lado pertenece Lista de Adyasencias )
+			if ( ver.v.getId().equals(u) ){											// Orden: O(n^2)
+				for ( Arista ari : ver.l ) {
 					if ( ari.getExtremo2().getId().equals(v) ) {
 						return true;
 					}
 				}
 			}
     		}
-    		return false;
-    		
+    		return false;	
     }
 
-    public boolean eliminarVertice(String id) {
-    		for ( VerticeNoDir ver : this.lista ) {
+    public boolean eliminarVertice(String id) {										// eliminarVertice ( entrada: String id del vertice ) --> salida: booleano
+    		for ( VerticeNoDir ver : this.lista ) {									// 
 			if ( ver.v.getId().equals(id) ) {
 				for ( Arista ari : ver.l ) {
 					String id1 = ari.getExtremo2().getId();
 					for ( VerticeNoDir ver1 : this.lista ) {
-						if ( ver1.getId().equals(id1) ) {
+						if ( ver1.v.getId().equals(id1) ) {
 							for ( Arista ari1 : ver1.l ) {
-								if ( ari1.getExtremo2.getId().equals(id) ) {
+								if ( ari1.getExtremo2().getId().equals(id) ) {
 									ver1.l.remove(ver1.l.indexOf(ari1));	
 								}
 							}
@@ -104,19 +134,19 @@ public class GrafoNoDirigido implements Grafo
     		return false;
 	}
     public List<Vertice> vertices() {
-    		List<Vertice> listaVer = new List<Vertice>();
-    		for ( Vertice ver : this.lista ) {
-			listaVer.add(ver);
+    		List<Vertice> listaVer = new LinkedList<Vertice>();
+    		for ( VerticeNoDir ver : this.lista ) {
+			listaVer.add(ver.v);
     		}
-    		return listaVer();
+    		return listaVer;
     }
 
     public List<Lado> lados() {
-    		List<Lado> listaari = new LinkedList<Arista>();
+    		LinkedList<Lado> listaari = new LinkedList<Lado>();
     		for ( VerticeNoDir ver : this.lista ) {
 			for ( Arista ari : ver.l ) {
 				boolean esta=false;
-				for ( Arista ari1 : listaari ) {
+				for ( Lado ari1 : listaari ) {
 					if ( ari1.getId().equals(ari.getId()) ) {
 						esta=true;
 						break;
@@ -132,141 +162,128 @@ public class GrafoNoDirigido implements Grafo
 
     public int grado(String id) {
     		for ( VerticeNoDir ver : this.lista ) {
-
 			if ( ver.v.getId().equals(id) ) {
-				return ver
+				return ver.l.size();
 			} 
-    		}
-    		
+		}
+		throw new NoSuchElementException();
+    		return 0;
     }
 
     public List<Vertice> adyacentes(String id) {
-    		Lista<Vertices> listaVer = new LinkedList<Vertices>();
+    		LinkedList<Vertice> listaVer = new LinkedList<Vertice>();
     		for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(id) ) {
-				for ( Arista ari : ver.l ) {
-					listaVer.offer(ari.getExtremo2());
+				if ( !ver.l.isEmpty() ){
+					for ( Arista ari : ver.l ) {
+						listaVer.offer(ari.getExtremo2());
+					}
+					return listaVer;
 				}
+				throw new NoSuchElementException();
 			}
     		}
     		return listaVer;
     }
  
     public List<Lado> incidentes(String id) {
-    		int[][] matriz = new int[this.lista.size()][this.lista.size()];
-    		List<Lado> listaLados = new LinkedList<Arista>();
-    		int i,j,k,posVerId;
-    		Vertice verId;
-    		for ( i = 0 ; i < this.lista.size() ; i++) {
-    			for ( j = 0 ; j < this.lista.size() ; j++) {
-    				if ( i == j ) {
-					matriz[i][i] = 1;
-    				}
-    				else {
-    					matriz[i][j] = 0;
+		LinkedList<Lado> listaari = new LinkedList<Lado>();
+    		for ( VerticeNoDir ver : this.lista ) {
+			if ( ver.v.getId().equals(id) ) {
+				if ( !ver.l.isEmpty() ){
+					for ( Lado ari : ver.l ) {
+						listaari.offer(ari);
+					}
+					return listaari;
 				}
+				throw new NoSuchElementException();
 			}
-		}
-		
-    		i=0;
-    		j=0;
-    		for ( VerticeNoDir ver : this.lista ) { 
-    			if ( ver.v.getId().equals(id) ) {
-				verId = ver.v;
-				posVerId = i;
-    			}
-			for ( Arista  ari : this.lista.l ) {
-				j = this.lista.indexOf(ari.getExtremo2());
-				matriz[i][j] = 1;;	
-			}
-			i++;
     		}
-
-    		for ( k = 0 ; k < this.lista.size() ; k++) {
-	    		for ( i = 0 ; i < this.lista.size() ; i++) {			
-				if ( k != i && matriz[i][k] == 1 ) {
-    					for ( j = 0 ; j < this.lista.size() ; j++) {
-						matriz[i][j] = matriz[i][j] + matriz[k][j];
-    					}
-    				}
-    			}
-		}
-
-    	
-    		for ( i = 0 ; i < this.lista.size() ; i++) {
-				if ( matriz[posVerId][i] == 1 ) {
-						Arista ari = new Arista( verId, this.lista.get(i) );
-						listaLados.offer(ari);
-				}
-    		}
-    				 
-    		
-    }
-
+    		return listaari;
+	}
     public Object clone() {
-		GrafoNoDirigida g2;
-		
-    		for (
+		GrafoNoDirigido grafoClon = new GrafoNoDirigido();
+		for ( VerticeNoDir ver : this.lista ) {
+			grafoClon.lista.offer(new VerticeNoDir(new Vertice(ver.v.getId(), 
+														 ver.v.getPeso() )));
+			for ( Arista a : ver.l ) {
+			  grafoClon.lista.getLast().l.offer(new Arista(a.getId(),a.getPeso()
+											,a.getExtremo1(),a.getExtremo2()));
+			}
+		}
+		return grafoClon;	
     }
 
     public String toString() {
-    		
+    		String str = " El grafo posee "+lista.size()+" vertices y "
+    						+numArista+" aristas";
+    		return str; 
     }
 
     public boolean agregarArista(Arista a) {
-    		int v1,v2;
-    		v1 = this.lista.indexOf(a.getExtremo1);
-    		v2 = this.lista.indexOf(a.getExtremo2);
-    		if ( v1 > 0 && v2 > 0 ) {
-			Arista a1 = new Arista( a.getId(),a.getPeso(),
-								   a.getExtremo2(),a.getExtremo2() );
-		    this.lista.get(v1).l.offer(a);
-			this.lista.get(v2).l.offer(a1);	
-			return true;			
-    		}
-    		else {
-			return false;
-    		}
+    		boolean estaV,estaU;
+    		estaV=false;
+    		estaU=false;
+      	VerticeNoDir v1,v2;
+      	v1 = null;
+      	v2 = null;
+      	
+      	for ( VerticeNoDir ver : this.lista ) {
+			if ( ver.v.getId().equals(a.getExtremo1()) ) {
+				v1 = ver;
+				estaU=true;
+			}
+			else if ( ver.v.getId().equals(a.getExtremo2()) ) {
+				v2 = ver;
+				estaV=true;
+			}
+			if ( estaU && estaV ) {
+				Arista 	a1;
+				a1 = new Arista(a.getId(),a.getPeso(),v2.v,v1.v);
+				v1.l.offer(a);
+				v2.l.offer(a1);
+				this.numArista++;	
+				return true;	
+			}
+      	}	
+      	return false;
     }
 
     public boolean agregarArista(String id, double peso, String u, String v) {
-      	int v1,v2;
       	boolean estaV,estaU;
-      	Vertice v1,v2;
-      	for ( Vertice ver : this.lista ) {
+      	VerticeNoDir v1,v2;		
+      	v1 = null;
+      	v2 = null;
+      	estaV=false;
+    		estaU=false;
+      	for ( VerticeNoDir ver : this.lista ) {
 			if ( ver.v.getId().equals(u) ) {
-				v1 = ver.v;
+				v1 = ver;
 				estaU=true;
 			}
 			else if ( ver.v.getId().equals(v) ) {
-				v2 = ver.v;
+				v2 = ver;
 				estaV=true;
 			}
-			if ( estaU && estanV ) {
-				break;
+			if ( estaU && estaV ) {
+				Arista 	a,a1;
+				a = new Arista(id,peso,v1.v,v2.v);
+				a1 = new Arista(id,peso,v2.v,v1.v);
+				v1.l.offer(a);
+				v2.l.offer(a1);
+				this.numArista++;	
+				return true;	
 			}
-      	}
-    		
-    		if ( estaU && estanV ) {
-    			Arista 	a,a1;
-    			a = new Arista(id,peso,v1,v2);
-    			a1 = new Arista(id,peso,v2,v1);
-		    this.lista.get(v1).l.offer(a);
-			this.lista.get(v2).l.offer(a1);	
-			return true;			
-    		}
-    		else {
-			return false;
-    		}
-    
+      	}	
+		return false;
     }
     
     public boolean eliminarArista(String id) {
-    		int cond = 0;
+    		int i = 0;
     		for ( VerticeNoDir ver : this.lista ) {
 			for ( Arista a : ver.l ) {
 				if (	 a.getId().equals(id) ) {
-					this.lista.l.remove(a);
+					ver.l.remove(a);
 					i++;
 				}
 				else if ( i == 2 ) {
@@ -285,5 +302,16 @@ public class GrafoNoDirigido implements Grafo
 				}
 			}
     		}
+		throw new NoSuchElementException();
+    }
+
+    public void mostrar()
+    {
+    
+    		System.out.println(this.lista.getLast().v.getId()+" "+this.lista.getLast().v.getPeso());
+    }
+    public void mostrarLado(Arista a)
+    {
+    		System.out.println(a.getId()+" "+a.getPeso());
     }
 }
