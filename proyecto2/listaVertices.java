@@ -23,6 +23,8 @@ class VerticeNoDir
 	boolean articulacion;
 	boolean visitado;
 	int sucesores;
+	int numbusq;
+	int masbajo;
 	
 	public VerticeNoDir(Vertice v)
 	{

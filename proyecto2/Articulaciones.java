@@ -11,7 +11,8 @@ public class Articulaciones implements Grafo
 	private LinkedList<VerticeNoDir> lista;
 	private int numArista;
 	private int numVertice;
-	
+	LinkedList<String> articulados = new LinkedList<String>();
+	private int cont = 0;
     public Articulaciones() {
 		this.lista = new LinkedList<VerticeNoDir>();
 		this.numArista = 0;
@@ -55,37 +56,113 @@ public class Articulaciones implements Grafo
 
 	public void caminoarticulacion ( String ini, String fin ) {	
 		LinkedList<String> articulados = new LinkedList<String>();
-		int cont = 0;
-		dfs();
-		for ( VerticeNoDir ver : this.lista ) {
-			if ( ! ver.visitado ) {
-				dfs_modificado(ver, cont);
-				if ( ver.sucesores >= 2 ) {
-					articulados.poll(ver.v.getid());
-				}
-			}
-		}
-		str1 = ""
-		for ( String str : articulados ) {
-			str1 = str1 + " " + str;
-		}
-		System.out.println(str1);
 
 		for ( VerticeNoDir ver : this.lista ) {
-			if ( ver.v.getid().equals(ini) ) {
-				valor = dfs_tipochill();
+			if ( ! ver.visitado ) {
+				dfs_articulaciones(ver);
+			}
+		}
+			
+		String str = ""; 	
+		while ( ! this.articulados.isEmpty() ) {
+			String arti = this.articulados.poll();
+			for ( VerticeNoDir ver : this.lista ) {
+				if ( ver.v.getId().equals(arti) ) {
+					ver.articulacion = true;
+				}
+			}
+			str = str + " " + arti;
+		}
+		System.out.println(str);
+
+		dfs_camino(ini,fin);
+
+	}
+
+	private void  dfs_camino ( String ini, String fin) { 
+		boolean valor = false;
+		cont = 0;
+		for ( VerticeNoDir ver : this.lista ) {
+			ver.visitado = false;
+		}
+		for ( VerticeNoDir ver : this.lista ) {
+			if ( ver.v.getId().equals(ini) ) {
+				valor = dfs_camino_visitar(ver, fin, valor);
 				if ( ! valor ) {
 					System.out.println("No");
 				}
 			}
-		
+		}
+	}
+
+	private boolean dfs_camino_visitar ( VerticeNoDir ver, String fin, 
+										boolean valor) {
+		ver.visitado = true;
+		cont ++;
+		if ( ver.v.getId().equals(fin) ) {
+			System.out.println("Si");
+			valor = true;
+			return valor;
+			
+		}
+		else{
+			for ( Arista ari : ver.l ) {
+				String str = ari.getExtremo2().getId();
+				for ( VerticeNoDir wer : this.lista ) {
+					if ( ! wer.visitado && str.equals(wer.v.getId()) ) {
+						if ( ! wer.articulacion || wer.v.getId().equals(fin) ) {
+							valor = dfs_camino_visitar (wer, fin, valor);
+							if ( valor ) {
+								break;
+							}
+						}
+					}
+				}
+			}
+			return valor;
+		}
+	}
+
+	private void dfs_articulaciones ( VerticeNoDir ver ) {
+		ver.visitado = true;
+		cont ++;
+		ver.numbusq = cont;
+		ver.masbajo = ver.numbusq;
+		int novisit = ver.l.size();
+		int apuntapadre = 0; 
+		for ( Arista ari : ver.l ) {
+			String str = ari.getExtremo2().getId();
+			for ( VerticeNoDir wer : this.lista ) {
+				if ( ( ! wer.visitado && str.equals(wer.v.getId()) ) ) {
+					wer.padre = ver.v.getId();
+					apuntapadre ++;
+					novisit = novisit - 1;
+					dfs_articulaciones(wer);
+					System.out.println(ver.v.getId() + ver.numbusq + " = "  + wer.v.getId() + wer.masbajo);
+					if ( ( wer.masbajo >= ver.numbusq && ! ver.padre.equals("")) 
+						^ ( ver.padre.equals("") 
+						&& ( apuntapadre > 1 ^ novisit > 0 ) ) ) {
+						this.articulados.add(ver.v.getId());
+					}
+
+					ver.masbajo = Math.min ( ver.masbajo, wer.masbajo );
+				}
+				else if ( str.equals(wer.v.getId() ) ) {
+				
+					if ( ver.numbusq > wer.numbusq && 
+						! ver.padre.equals(wer.v.getId() ) ) {
+					System.out.println(ver.v.getId() + " " + ver.masbajo + " " + wer.numbusq );
+					ver.masbajo = Math.min ( ver.masbajo, wer.numbusq );
+					}	
+				}
+			}
 		}
 
 	}
 
 	private void dfs_sucesores () {
-		for ( VerticeNoDir ver : this.lita ) {
-			if ( ver.visitado = false ) {
+		for ( VerticeNoDir ver : this.lista ) {
+			if ( ver.visitado == false ) {
 				dfs_sucesores_visitar(ver);
 			}
 		}
@@ -96,9 +173,15 @@ public class Articulaciones implements Grafo
 		ver.visitado = true;
 		for ( Arista  ari : ver.l ) {
 			String str =  ari.getExtremo2().getId();
-		for ( VerticeNoDir ver : this.lista ) {
-			if ( ver.v.getId().equals(str) && 
+			for ( VerticeNoDir wer : this.lista ) {
+				if ( wer.v.getId().equals(str) && ! wer.visitado ) {
+					wer.padre = ver.v.getId();
+					ver.sucesores ++;
+					dfs_sucesores_visitar(wer);
+				}
+			}
 		}
+	}
 
 
 
