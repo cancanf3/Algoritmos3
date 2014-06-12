@@ -22,7 +22,7 @@ public class ListaCamino implements Grafo
 				str = Buffer.readLine();
 				String[] str1 = str.split(" ");
 				if  ( ! digrafo.agregarVertice(str1[0],Integer.parseInt(str1[1])) )
-					System.out.println("lol");
+					System.out.println("Error al agregar Vertice en el Grafo");
 			}
 			
 			for (int i=0 ; i < ari ; i++) {
@@ -95,7 +95,7 @@ public class ListaCamino implements Grafo
 				str = Buffer.readLine();
 				String[] str1 = str.split(" ");
 				if  ( ! this.agregarVertice(str1[0],Integer.parseInt(str1[1])) )
-					System.out.println("lol");
+					System.out.println("Error al agregar Vertice en el Grafo");
 			}
 			
 			for (int i=0 ; i < ari ; i++) {
