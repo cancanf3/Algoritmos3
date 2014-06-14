@@ -4,7 +4,6 @@ import java.io.*;
 import java.math.*;
 
 
-
 class ComparadorTablero implements Comparator<Tablero>
 {
     public int compare(Tablero estado1, Tablero estado2)
@@ -196,7 +195,7 @@ class Tablero
             camino.offer(i);
     }
     
-	public void sucesor()
+	public void encontrarSolucion()
 	{
         ComparadorTablero      comp     = new ComparadorTablero();
         PriorityQueue<Tablero> cola     = new PriorityQueue<Tablero>(1,comp);
@@ -221,7 +220,6 @@ class Tablero
                 }
                 actual.imprimir();
 				System.out.println("Numero de estados abiertos: "+nEstados);
-                
                 break;
             }
             
@@ -249,16 +247,16 @@ public class OchoPuzzle
 {
 	static public void main(String args[])
 	{
-		Tablero tab;
-		tab = new Tablero();
-		tab.cargarTablero(args[0],args[1]);
-		if (! tab.sePuedeResolver())
+		Tablero puzzle;
+		puzzle = new Tablero();
+		puzzle.cargarTablero(args[0],args[1]);
+		if (! puzzle.sePuedeResolver())
 		{
 			System.out.println("No se puede resolver");
 		}
 		else
 		{
-        	tab.sucesor();
+        	puzzle.encontrarSolucion();
 		}
 	}
 }
