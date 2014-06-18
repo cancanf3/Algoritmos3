@@ -1,29 +1,38 @@
 
+/**
+ * Proyecto 3 8-Puzzle
+ * Carlos Spaggiari      11-10987
+ * Jose Peña             11-10775
+ */
+
 
 import java.util.Scanner;
 import java.util.LinkedList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.HashSet;
 import java.lang.System;
 import java.lang.Math;
 import java.io.File;
 import java.io.IOException;
 
 /**
- * Clase comparador de la clase Tablero.
+ * Clase comparador de la clase Estado.
  */
-class ComparadorTablero implements Comparator<Tablero>
+class ComparadorEstado implements Comparator<Estado>
 {
     /**
-     * Compara dos classes Tablero segun su funcion estimativa
+     * Compara dos classes Estado segun su funcion estimativa
+     * Precondicion:	True
+     * Postcondicion:   True
      *
-     * @return			-1 	si estado1.f  < estado2.f
-     *                   0  si estado1.f == estado2.f
-     *                   1 	si estado1.f  > estado2.f
-     * @precondition	True
-     * @postcondition   True
+     * @param estado1   primer estado a ser comparado
+     * @param estado2   segundo estado a ser comparado
+     * @return			-1 	si estado1.f  < estado2.f,
+     *                   0  si estado1.f == estado2.f,
+     *                   1 	si estado1.f  > estado2.f,
      */
-    public int compare(Tablero estado1, Tablero estado2)
+    public int compare(Estado estado1, Estado estado2)
     {
         if (estado1.f < estado2.f)
         {
@@ -41,28 +50,27 @@ class ComparadorTablero implements Comparator<Tablero>
 }
 
 /**
- * Clase Tablero que representa un estado en el juego
- * de 9-Puzzle durante su resolucion.
+ * Clase Estado que representa un nodo en el grafo para resolver 8-Puzzle
  */
-class Tablero
+class Estado
 {
-	int[]  				piezas;      // las 9 piezas del tablero.
-	int     			posBlanco;   // posicion del blanco ("0") en el tablero.
+	int[]  				piezas;      // las 9 piezas del Estado.
+	int     			posBlanco;   // posicion del blanco ("0") en el Estado.
     int     			f;           // funcion estimativa de la heuristica.
+    int 				id;			 // Id de la configuracion del tablero
     LinkedList<Integer> camino;		 // Lista del camino desde el inicio.
-    String  			heuristica;  // heuristica que se utiliza.
+
     
     
     
     /**
-     * Constructor de la clase Tablero
+     * Constructor por defecto de la clase Estado
      */
-	public Tablero()
+	public Estado()
 	{
 		piezas     = new int[9];
         f          = 0;
 		posBlanco  = 0;
-        heuristica = "";
         camino     = new LinkedList<Integer>();
 	}
     
@@ -70,12 +78,12 @@ class Tablero
     
     /**
      * Cargar valores
+     * Precondicion:	True
+     * Postcondicion:   True
      *
-     * @param file		string del nombre del archivo.
-     * @precondition	True
-     * @postcondition   True
+     * @param file	    string del nombre del archivo.
      */
-	public void cargarTablero(String file)
+	public void cargarEstado(String file)
 	{
 		try{
 			Scanner sn = new Scanner(new File(file));
@@ -95,10 +103,9 @@ class Tablero
     
     
     /**
-     * Imprime por consola el tablero.
-     *
-     * @precondition	True
-     * @postcondition   True
+     * Imprime por consola el Estado.
+     * Precondicion:	True
+     * Postcondicion:   True
      */
 	public void imprimir()
 	{
@@ -117,13 +124,13 @@ class Tablero
     
     /**
 	 * Verifica si se puede resolver el estado actual.
-     *
-     * @return			True si el numero de inversiones es par, False si no.
-     * @precondition	True
-     * @postcondition   FORALL( i : 0 <= i < 8 : 
+     * Precondicion:	True
+     * Postcondicion:   FORALL( i : 0 <= i < 8 :
      *                         FORALL( j : 0 <= j <= 8-i :
      *                                (piezas[i] < piezas[j] && piezas[j] != 0)
      *								   => nInversiones = nInversiones' + 1 ))
+	 *
+     * @return			True si el numero de inversiones es par, False si no.
 	 */
     public boolean sePuedeResolver()
 	{
@@ -152,41 +159,24 @@ class Tablero
 	
     
     
-    /**
-     * Verifica si el estado actual es igual al estado meta.
-     *
-     * @return			FORALL( i : 0 <= i < 9 : piezas[i] == i+1 )
-     * @precondition 	True
-     * @postcondition 	True
-     */
-    public boolean esEstadoMeta()
-	{
-		for(int i = 1 ; i < 9 ; i++)
-		{
-			if( i != piezas[i - 1])
-				return false;
-		}
-		return true;
-	}
-    
-    
     
 	/**
      * Calcula la heurista del estado, usando el atributo hueristica para
      * decidir cual de las cuatro heuristicas disponibles se calculara.
+     * Precondicion: 	True
+     * Postcondicion: 	True
      *
+     * @param h			String que define la heuristica que se utiliza
      * @return			El valor de la hueristica estimada.
-     * @precondition 	True
-     * @postcondition 	True
      */
-	public int calcularHeuristica()
+	public int calcularHeuristica(String h)
 	{
         
-		int h = 0;
+		int heuristica = 0;
         
-		if (heuristica.equals("m"))
+		if (h.equals("m"))
 		{
-			for (int i = 0 ; i < 9 ; i++)
+			for (int i = 1 ; i < 9 ; i++)
 			{
 				if (piezas[i] !=0)
 				{
@@ -195,40 +185,40 @@ class Tablero
 					int x2 = (piezas[i] - 1) % 3;
 					int y2 = (piezas[i] - 1) / 3;
                     
-					h += Math.abs(x1 - x2) + Math.abs(y1 - y2);
+					heuristica += Math.abs(x1 - x2) + Math.abs(y1 - y2);
 				}
 			}
 		}
-		else if(heuristica.equals("d"))
+		else if(h.equals("d"))
 		{
 			for (int i = 0 ; i < 9 ; i++)
 			{
 				if (piezas[i] != 0 && piezas[i] == i + 1)
 				{
-					h++;
+					heuristica++;
 				}
 			}
 		}
-		else if (heuristica.equals("b"))
+		else if (h.equals("b"))
 		{
 			int x1 = posBlanco % 3;
 			int y1 = posBlanco / 3;
             
-			h += Math.abs(x1 - 2) + Math.abs(y1 - 2);
+			heuristica += Math.abs(x1 - 2) + Math.abs(y1 - 2);
 		}
-		return h;
+		return heuristica;
 	}
     
     
     
     /**
-     * Modifica el tablero segun la accion dada.
-     *
-     * @param accion	Numero de la accion a tomar.
-     * @return			True si se pudo realizar la accion, False si no.
-     * @precondition	1 <= accion <= 4
-     * @postcondition   Modifica el arreglo de piezas de acuerdo a la accion
+     * Modifica el Estado segun la accion dada.
+     * Precondicion:	1 <= accion <= 4
+     * Postcondicion:   Modifica el arreglo de piezas de acuerdo a la accion
      *					dada, si puede realizarze la misma.
+     *
+     * @param accion	Numero que representa la accion a tomar.
+     * @return			True si se pudo realizar la accion, False si no.
      */
 	public boolean accion(int accion)
 	{
@@ -240,28 +230,28 @@ class Tablero
 		int y = posBlanco / 3;
 		int x = posBlanco % 3;
         
-		if (y-1 >= 0 && accion == 1)
+		if (accion == 1 && y-1 >= 0)
 		{
 			piezas[posBlanco] = piezas[posBlanco - 3];
 			piezas[posBlanco - 3] = 0;
 			posBlanco -= 3;
 			return true;
 		}
-		if (x+1 < 3  && accion == 2)
+		if (accion == 2 && x+1 < 3)
 		{
 			piezas[posBlanco] = piezas[posBlanco + 1];
 			piezas[posBlanco + 1] = 0;
 			posBlanco += 1;
 			return true;
 		}
-		if (y+1 < 3  && accion == 3)
+		if (accion == 3 && y+1 < 3)
 		{
 			piezas[posBlanco] = piezas[posBlanco + 3];
 			piezas[posBlanco + 3] = 0;
 			posBlanco += 3;
 			return true;
 		}
-		if (x-1 >= 0 && accion == 4)
+		if (accion == 4 && x-1 >= 0)
 		{
 			piezas[posBlanco] = piezas[posBlanco - 1];
 			piezas[posBlanco - 1] = 0;
@@ -274,24 +264,22 @@ class Tablero
     
     
     /**
-     * Copia los atributos de otra clase Tablero.
-     *
-     * @param fuente   Tablero de cual se compiaran los atributos copiar.
-     * @precondition:  fuente != null
-     * @postcondition: FORALL(i : 0 <= i < 9 : piezas[i] == fuente.piezas[i])
+     * Copia los atributos de otra clase Estado.
+     * Precondicion::  fuente != null
+     * Postcondicion:: FORALL(i : 0 <= i < 9 : piezas[i] == fuente.piezas[i])
      *                 && FORALL( i : i in fuente.camino :
      *                           FORALL( j : j in camino : i==j ))
      *                 && (heuristica == fuente.heuristica)  && (f == fuente.f)
      *                 && (posBlanco == fuente.posBlanco)
+     *
+     * @param fuente   Estado de cual se compiaran los atributos copiar.
      */
-    void copiar(Tablero fuente)
+    void copiar(Estado fuente)
     {
         for (int i = 0 ; i < 9 ; i++)
         {
             piezas[i] = fuente.piezas[i];
         }
-        f = fuente.f;
-        heuristica = fuente.heuristica;
         posBlanco = fuente.posBlanco;
         for (Integer i : fuente.camino)
         {
@@ -302,57 +290,91 @@ class Tablero
     
     
     /**
-     * Resuelve un 9-Puzzle dado un estado inicial.
-     *
-     * @precondition  sePuedeResolver() == True
-     * @postcondition (esEstadoMeta() == True) && (nEstado == |camino minimo|)
+     * Metodo que establece una funcion inyectica entre los estados y los
+     * numeros naturales, dando asi un ID unico a cada combinacion del puzzle.
+     * Precondicion:	True
+     * Postcondicion: 	id = SUM(i : 0 <= i < 9 : piezas[8-i] * 10^i)
      */
-	public void encontrarSolucion()
+    public void calcularId()
+    {
+        id = piezas[0];
+        for(int i = 1 ; i < 9 ; i++)
+        {
+            id = (id * 10) + piezas[i];
+        }
+    }
+    
+    
+    /**
+     * Resuelve un 8-Puzzle dado un estado inicial.
+     * Precondicion:	sePuedeResolver() == True
+     * Postcondicion: 	this.id == metaId
+     *
+     * @param h			string que define que heuristica se usara
+     */
+	public void encontrarSolucion(String h)
 	{
-        ComparadorTablero      comp     = new ComparadorTablero();
-        PriorityQueue<Tablero> cola     = new PriorityQueue<Tablero>(1 , comp);
-		Tablero                actual   = null;
-        int 				   nEstados = 0;
-        long				   tiempo   = 0;
-        long 				   fin      = 0;
-        long 				   inicio   = System.currentTimeMillis();
+        if (!sePuedeResolver())
+        {
+            System.out.println("No se puede resolver");
+            return;
+        }
+        ComparadorEstado       comp      = new ComparadorEstado();
+        PriorityQueue<Estado>  cola      = new PriorityQueue<Estado>(1 , comp);
+        HashSet<Integer>	   visitados = new HashSet<Integer>();
+		Estado                 actual    = null;
+        int 				   metaId    = 123456780;
+        int 				   nEstados  = 1;
+        long				   tiempo    = 0;
+        long 				   fin       = 0;
+        long 				   inicio    = System.currentTimeMillis();
 
+        calcularId();
         camino.offer(-10);
         cola.offer(this);
+        visitados.add(this.id);
         
         while (cola.size() > 0)
         {
 			actual = cola.poll();
-            if (actual.esEstadoMeta())
-            {
-                actual.camino.removeFirst();
-                for (Integer i : actual.camino)
-                {
-                    	imprimir();
-                    	accion(i);
-                }
-                imprimir();
-                
-                fin = System.currentTimeMillis();
-                tiempo = fin - inicio;
-                
-				System.out.println("Numero de estados abiertos: "+(nEstados-1));
-                System.out.println("Tiempo: " + tiempo + "ms");
-                break;
-            }
+            visitados.add(actual.id);
             
             for (int i = 1 ; i < 5 ; i++)
             {
-                Tablero aux = new Tablero();
+                Estado aux = new Estado();
                 aux.copiar(actual);
-                
-                if (aux.accion(i) && Math.abs(i - actual.camino.getLast()) != 2)
+                boolean esUltimaAccion;
+                esUltimaAccion = (Math.abs(i - actual.camino.getLast()) == 2);
+                if (aux.accion(i) && !esUltimaAccion)
                 {
-                    // Si la accion es valida y no es la ultima accion tomada.
-                    aux.f += aux.calcularHeuristica();
-                    aux.camino.offer(i);
-                    nEstados++;
-                    cola.offer(aux);
+					aux.calcularId();
+                    if (!visitados.contains(aux.id))
+                    {
+                        aux.camino.offer(i);
+                        aux.f = aux.camino.size() + aux.calcularHeuristica(h);
+                        nEstados++;
+                        if ( aux.id == metaId )
+                        {
+                            actual.camino.removeFirst();
+                            int movimientos = aux.camino.size()-1;
+                            for (Integer j : aux.camino)
+                            {
+                                accion(j);
+                                imprimir();
+                            }
+                            
+                            
+                            fin = System.currentTimeMillis();
+                            tiempo = fin - inicio;
+                            
+                            System.out.print  ("Numero de estados abiertos: ");
+                            System.out.println(nEstados);
+                            System.out.println("Tiempo: " + tiempo + "ms");
+                            return;
+                        }
+                        cola.offer(aux);
+                        visitados.add(aux.id);
+					}
                 }
             }
         }
@@ -364,18 +386,10 @@ public class OchoPuzzle
 {
 	static public void main(String args[])
 	{
-		Tablero puzzle = new Tablero();
+		Estado inicial = new Estado();
         
-		puzzle.cargarTablero(args[1]);
-        puzzle.heuristica = args[0];
+		inicial.cargarEstado(args[1]);
         
-		if (! puzzle.sePuedeResolver())
-		{
-			System.out.println("No se puede resolver");
-		}
-		else
-		{
-        	puzzle.encontrarSolucion();
-		}
+        inicial.encontrarSolucion(args[0]);
 	}
 }

@@ -1,3 +1,19 @@
-0 1 3
-4 2 5
-7 8 6
+8 7 6 5 4 3 2 1 0
+	Para el presente proyecto se ultizo un algoritmo de A* para resolver un problema 
+de 8-Puzzle. Para esto se implemento una clase Estado, la cual posee todos los metodos necesarios para
+resolver el problema, asi como una clase ComparadorEstado implementada de la clase Comparator<E>
+para comparar cada Estado segun su funcion de heuristica.
+
+	El grafo utilizado es no dirigido e implicito, es decir, se va construyendo en tiempo de ejecucion tomando en cuenta
+la validez de las acciones que pueden tomarse en cada Estado explorado, generando nuevos Estados
+los cuales se colocan en la lista de abiertos representada con una PriorityQueue<Estado>. Ademas se uso una lista de
+visitados usando un HashSet<Integer> que almacena los id de cada estado que se abre para evitar bucles y optimizar
+el tiempo de ejecucion. 
+
+	Para que una accion sea valida y poder abrir un nodo con el Estado sucesor se debe cumplir que:
+		-El movimiento es valido.
+		-El movimiento no es el inverso del ultimo movimiento realizado en la accion anterior.
+		-El Estado generado por la accion no debe estar en la lista de visitados.
+
+	Cada Estado posee una LinkedList<Integer> de acciones (1, 2, 3 y 4 son arriba, derecha, abajo e izquierda respectivamente)
+que representan el camino desde el estado actual y el inicio.
